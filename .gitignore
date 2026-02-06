@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Secrets
+firebase_config.py
+frountend-result/config.js
+service_account.json
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

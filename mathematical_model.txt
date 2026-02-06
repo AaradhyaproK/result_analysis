@@ -1,0 +1,84 @@
+Mathematical Model: Student Result Analyzer Pro
+===============================================
+
+1. System Entities & Sets
+-------------------------
+Let U be the set of Users.
+Let D be the set of uploaded PDF Documents (Marksheets).
+Let S be the universal set of Student Records extracted.
+
+   U = { u | u has attributes (email, password, role) }
+   Roles = { 'Teacher', 'Student' }
+
+2. Authentication Logic
+-----------------------
+Let f_auth: Email x Password -> {0, 1} be the authentication function.
+Let f_role: U -> Roles be the role assignment function.
+
+Access Control Matrix (A):
+   A(u, operation) = 1 (Allowed) if:
+      (f_role(u) == 'Teacher' AND operation IN {Upload, BatchAnalytics, GlobalSearch}) OR
+      (f_role(u) == 'Student' AND operation IN {ViewSelf, ViewHistory})
+   Else A(u, operation) = 0 (Denied).
+
+3. Parsing & Extraction Model (Function P)
+------------------------------------------
+Let T_d be the raw text content of a document d ∈ D.
+The parsing function P maps text to a set of student vectors:
+
+   P(T_d) -> { s_1, s_2, ..., s_n }
+
+Where each student vector s_i is a tuple:
+   s_i = < PRN_i, Seat_i, Name_i, SGPA_i, Grades_i >
+
+   - PRN_i: Unique Identifier (String)
+   - SGPA_i: Real Number (R >= 0) OR Null (∅)
+   - Grades_i: Set of tuples { (Subject_k, Grade_k, Credits_k) }
+
+Regex Mapping Functions (Approximation):
+   f_seat(block) -> Regex("SEAT NO.:\s*(\w+)")
+   f_prn(block)  -> Regex("PRN\s*:\s*(\w+)")
+   f_sgpa(block) -> Regex("SGPA\s*:\s*([0-9.]+|--)")
+
+4. Result Classification Logic
+------------------------------
+Let g be the SGPA of a student. The Status Function S(g) is defined as:
+
+   S(g) = {
+      Pass,  if g ∈ R AND g > 0
+      Fail,  if g = 0 OR g = ∅ OR g = '--'
+   }
+
+Failure Categorization F_cat(g):
+   F_cat(g) = {
+      Backlog,       if g = 0
+      Absent/Null,   if g = ∅ OR g = '--'
+   }
+
+5. Batch Analytics Model
+------------------------
+For a processed batch B = P(T_d) with total students N = |B|:
+
+   a. Pass Count (N_pass):
+      N_pass = Σ [ S(s_i.SGPA) == Pass ] for i=1 to N
+      (Where [ ] is the Iverson bracket)
+
+   b. Pass Percentage (P_%):
+      P_% = (N_pass / N) * 100
+
+   c. Average SGPA (μ):
+      Let V be the set of valid scores { s.SGPA | s ∈ B AND s.SGPA > 0 }
+      μ = (1 / |V|) * Σ (g) for all g ∈ V
+
+6. Global Search & Academic Progression (Time Series)
+---------------------------------------------------
+Let DB be the database of all processed batches { (B_1, t_1), (B_2, t_2), ... } 
+where t is the timestamp/exam-tag.
+
+The History Function H(prn) aggregates data across time:
+
+   H(prn) = { (t_j, s.SGPA) | ∃ s ∈ B_j such that s.PRN == prn }
+
+   This yields a time series sequence:
+   TS = < (t_1, g_1), (t_2, g_2), ..., (t_k, g_k) >
+   Sorted such that t_1 < t_2 < ... < t_k

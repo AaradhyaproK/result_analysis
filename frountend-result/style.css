@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+:root {
+    --bg-dark: #090b10;
+    --glass: rgba(22, 27, 34, 0.9);
+    --border: rgba(255, 255, 255, 0.1);
+    --accent: #38bdf8;
+    --purple: #a855f7;
+    --text: #f8fafc;
+    --dim: #94a3b8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+body { background: var(--bg-dark); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+.container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 10px; }
+.hidden { display: none !important; }
+.dim { color: var(--dim); font-size: 0.8rem; }
+
+/* COMPACT ANALYTICS */
+.stat-banner {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: 16px; margin: 20px 0; padding: 10px;
+}
+.stat-item {
+    display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.03); border-radius: 12px; flex: 1; min-width: 130px;
+}
+.stat-icon { color: var(--accent); font-size: 1.1rem; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: rgba(56, 189, 248, 0.1); border-radius: 8px; }
+.stat-label { font-size: 0.6rem; text-transform: uppercase; color: var(--dim); display: block; }
+.stat-value { font-size: 1.1rem; font-weight: 800; }
+
+/* SEARCH & HERO */
+.hero-section { text-align: center; padding: 20px 0; }
+.brand-logo { font-size: 1.8rem; font-weight: 800; margin-bottom: 15px; }
+.brand-logo span { color: var(--accent); }
+.search-bar { 
+    background: var(--glass); border: 1px solid var(--border); padding: 12px 20px;
+    border-radius: 50px; display: flex; align-items: center; max-width: 500px; margin: 0 auto;
+}
+.search-bar input { background: none; border: none; color: white; width: 100%; margin: 0 10px; outline: none; }
+.dropdown-list { position: absolute; left: 10px; right: 10px; background: #161b22; border-radius: 12px; z-index: 100; border: 1px solid var(--border); }
+.result-item { padding: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
+
+/* DASHBOARD */
+.glass-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 15px; }
+.top-row { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
+.avatar { width: 55px; height: 55px; background: linear-gradient(135deg, var(--accent), var(--purple)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; }
+.metric-value { font-size: 2.2rem; font-weight: 800; color: var(--purple); }
+
+/* ACCORDION TRANSCRIPT */
+.sem-block { margin-bottom: 8px; border-radius: 12px; border: 1px solid var(--border); background: var(--glass); overflow: hidden; }
+.sem-head { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.toggle-icon { font-size: 0.7rem; color: var(--accent); transition: transform 0.3s; }
+.sem-body-wrapper { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: rgba(0,0,0,0.2); }
+
+/* MOBILE RESPONSIVE TABLES */
+.subject-table { width: 100%; border-collapse: collapse; }
+.subject-table th { display: none; }
+.subject-table tr { display: block; border-bottom: 1px solid var(--border); padding: 10px 15px; }
+.subject-table td { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.85rem; }
+.subject-table td::before { content: attr(data-label); font-weight: 600; color: var(--dim); }
+.grade-badge { background: #30363d; padding: 2px 8px; border-radius: 4px; color: var(--accent); font-weight: bold; }
+
+@media (min-width: 768px) {
+    .top-row { grid-template-columns: 2fr 1fr; }
+    .subject-table th { display: table-cell; padding: 10px 15px; color: var(--dim); text-transform: uppercase; font-size: 0.7rem; text-align: left; }
+    .subject-table tr { display: table-row; }
+    .subject-table td { display: table-cell; padding: 12px 15px; }
+    .subject-table td::before { display: none; }
+    .stat-item { min-width: 140px; }
+}
+
+/* FOOTER */
+.app-footer { background: #0d1117; padding: 30px 10px; text-align: center; border-top: 1px solid var(--border); }
+.credits { font-size: 0.85rem; margin-top: 8px; color: var(--text); }
+.credits span { color: var(--accent); font-weight: 600; }
+
+#loader { position: fixed; inset: 0; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
+.dual-ring { width: 35px; height: 35px; border: 3px solid var(--accent); border-bottom-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* --- FIX 1: Sticky Footer Logic --- */
+html, body {
+    height: 100%; /* Required for the wrapper to calculate height */
+    margin: 0;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Takes full screen height */
+}
+
+.container {
+    flex: 1 0 auto; /* This pushes the footer down by growing to fill space */
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.app-footer {
+    flex-shrink: 0; /* Prevents footer from squishing */
+    background: #0d1117;
+    padding: 25px 10px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    width: 100%;
+}
+
+
+/* Ensure canvas doesn't break out */
+#performanceChart {
+    max-height: 100% !important;
+    width: 100% !important;
+}
+/* --- UPDATED RESPONSIVE SYSTEM --- */
+
+:root {
+    /* Fluid Font Sizes: clamp(min, preferred, max) */
+    --font-h1: clamp(1.5rem, 5vw, 2.2rem);
+    --font-h2: clamp(1.2rem, 4vw, 1.8rem);
+    --font-body: clamp(0.85rem, 2vw, 1rem);
+    --card-padding: clamp(12px, 3vw, 24px);
+}
+
+/* 1. Fix Footer Positioning */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1 0 auto; /* Pushes footer to bottom */
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.app-footer {
+    flex-shrink: 0;
+    background: #0d1117;
+    padding: 20px 10px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+
+/* 2. Fix Graph Height & Recursion */
+.chart-container {
+    position: relative;
+    height: 500px; /* Reduced height for better look */
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* 3. Smaller Squares for Mobile */
+.glass-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: var(--card-padding);
+    margin-bottom: 15px;
+}
+
+.top-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+.brand-logo { font-size: var(--font-h1); }
+#displayName { font-size: var(--font-h2); }
+
+/* --- MOBILE TWEAKS --- */
+@media (max-width: 768px) {
+    .top-row {
+        grid-template-columns: 1fr; /* Stack profile and prediction */
+    }
+    
+    .profile-info {
+        padding: 15px; /* Smaller square on mobile */
+    }
+
+    .avatar {
+        width: 50px; /* Scaled down avatar */
+        height: 50px;
+        font-size: 1.1rem;
+    }
+
+    .metric-value {
+        font-size: 2rem; /* Smaller font for SGPA square */
+    }
+
+    .stat-banner {
+        gap: 8px;
+    }
+
+    .stat-item {
+        padding: 10px;
+        min-width: 100%; /* Clean list view on small screens */
+    }
+
+    /* Table Fix for Small Squares */
+    .subject-table td {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+}
