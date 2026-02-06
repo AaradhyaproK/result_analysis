@@ -1,164 +1,211 @@
-# 🎓 Student Result Analyzer Pro
+<p align="center">
+  <img src="https://github.com/AaradhyaproK/result_analysis_with_data_visualization/blob/main/banner-result.png" width="100%">
+</p>
 
-**Student Result Analyzer Pro** is an advanced web application designed for educational institutions to automate the extraction, analysis, and storage of student examination results. 
+<div align="center">
 
-It transforms static PDF marksheets into dynamic, interactive dashboards, allowing teachers to track batch performance and students to visualize their academic growth over time.
+# 🎓 <span style="color:#ff4b4b; font-weight:800;">Student Result Analyzer Pro</span>
+### 🚀 <span style="color:#0099ff;">The Next-Gen Academic Performance Tracker</span>
 
----
+<br>
 
-## 🧠 How It Works (The Logic)
+![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
-Here is the simplified logic behind the core features so anyone can understand how the code functions.
+<br>
 
-### 1. 📄 The "Reading" Algorithm (PDF Parsing)
-Imagine reading a long receipt. The computer reads the PDF file line by line using **PyPDF2**.
-*   **Segmentation:** The code looks for the keyword **"SEAT NO.:"**. Every time it finds this word, it knows a new student's record is starting. It cuts the text into blocks, one for each student.
-*   **Extraction (Regex):** Inside each student's block, the code uses "Regular Expressions" (pattern matching) to find specific data:
-    *   *Find a pattern like "722..."* → That's the **PRN**.
-    *   *Find a number after "SGPA :"* → That's the **Result**.
-    *   *Find lines with course codes (e.g., "210242")* → These are **Subjects**.
-
-### 2. 🔮 The "Prediction" Algorithm (AI)
-We use a mathematical concept called **Linear Regression** (via `scikit-learn`).
-*   **Logic:** If a student scored 7.0 in Sem 1, 7.5 in Sem 2, and 8.0 in Sem 3, the algorithm draws a straight line through these points to guess where the next point (Sem 4) will land.
-*   **Goal:** To give students an estimated target for their next exam based on their current trajectory.
-
-### 3. ☁️ The "Memory" System (Cloud Storage)
-We don't just show the data; we save it to **Google Firebase**.
-*   **Structure:** We store data in a "NoSQL" format (like a giant JSON file).
-*   **Linking:** When you upload a new file, the system checks the **PRN**. If that PRN already exists in the database from a previous exam, the system links the new result to that student's history, creating a complete timeline.
+### <b>Analyze · Visualize · Archive</b>
+Transform static PDFs into intelligent academic dashboards.
 
 ---
 
-## 📂 Project Structure
-
-The code is modular (split into different files) to make it easy to manage.
-
-| File Name | Description |
-| :--- | :--- |
-| `app.py` | **The Main Entry Point.** It sets up the page layout and directs users to the Login page or Dashboard based on their status. |
-| `analyzer.py` | **The Brain.** Contains the logic to read PDFs, extract student data, and perform AI predictions. |
-| `firebase_manager.py` | **The Connector.** Handles all communication with Google Firebase (Login, Save Data, Fetch Data). |
-| `dashboards.py` | **The UI Logic.** Defines what the Teacher sees (Upload, Analytics) vs. what the Student sees (Personal History). |
-| `ui_renderers.py` | **The Visuals.** Contains code for the charts (Plotly), profile cards, and tables. |
-| `auth.py` | **The Gatekeeper.** Manages the Login and Registration forms. |
-| `styles.py` | **The Look.** Contains Custom CSS to make the app look modern (Glassmorphism effects). |
-| `utils.py` | **Helpers.** Functions to export data to Excel files. |
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## 🌟 **Overview**
 
-*   **Frontend:** Streamlit (Python-based UI framework)
-*   **Language:** Python 3.9+
-*   **Database:** Google Firebase Firestore (NoSQL Cloud DB)
-*   **Authentication:** Firebase Auth (Email/Password)
-*   **Data Processing:** 
-    *   `Pandas` (Data Tables)
-    *   `PyPDF2` (PDF Reading)
-    *   `Regex` (Pattern Matching)
-*   **Visualization:** `Plotly` (Interactive Charts)
-*   **Machine Learning:** `Scikit-Learn` (Linear Regression for predictions)
+**Student Result Analyzer Pro** is a smart PDF-processing platform that reads SPPU-style university result sheets and converts them into structured, searchable, and visual student profiles.
+
+It builds an **Academic Timeline** for each PRN, showing semester-wise performance and analytics.
 
 ---
 
-## 🚀 How to Start (Installation Guide)
+## ✨ **Key Features**
 
-Follow these steps to run the project on your local machine.
+| Feature | Description |
+|--------|-------------|
+| 🔐 **Role-Based Access** | Teachers upload PDFs; students view their performance. |
+| 📄 **Smart PDF Parser** | Extracts PRN, SGPA, subjects, grades with Regex. |
+| 📈 **Analytics Engine** | Trendlines, histograms, pie charts (Plotly). |
+| 🌍 **Global PRN Search** | View complete academic history across all uploads. |
+| 🧠 **Logic Engine** | SGPA-based Pass/Fail validator (SPPU rule-aware). |
+| ☁️ **Firestore Cloud DB** | Fast, secure, real-time database. |
+| 🔮 **AI Prediction** | Predicts next semester SGPA using Linear Regression. |
 
-### Prerequisites
-1.  Install **Python** (version 3.8 or higher).
-2.  Have a **Google Firebase Project** set up.
+---
 
-### Step 1: Clone the Repository
+## 🏗️ **Architecture & Parsing Logic**
+
+### 🔍 1. **Parsing Engine (`AdvancedResultAnalyzer`)**
+
+- Splits PDF text using:
+
+```
+SEAT NO.:
+```
+
+- Extracts:
+  - Student Name
+  - Mother’s Name
+  - PRN
+  - Subject List
+  - SGPA & Credits
+
+### 🧠 Result Logic
+
+```
+IF SGPA > 0  → PASS
+ELSE         → FAIL
+```
+
+This overrides subject-level F grades to match actual university logic.
+
+---
+
+## 🗂️ **Firestore Schema**
+
+### **📁 Collection: users**
+```json
+{
+  "email": "teacher@college.edu",
+  "role": "teacher",
+  "name": "Prof. X",
+  "last_login": "2024-10-27T10:00:00Z"
+}
+```
+
+### **📁 Collection: result_files**
+```json
+{
+  "file_name": "SE_Computer_2024.pdf",
+  "exam_tag": "SE 2024",
+  "students_data": [
+    {
+      "Name": "Adithyan K S",
+      "PRN": "72266975F",
+      "SGPA": 8.5,
+      "Subjects": [
+        {
+          "Code": "210251",
+          "Name": "Data Structures",
+          "Grade": "A+",
+          "Credits": 4
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 🚀 **Installation & Setup**
+
+### 1️⃣ Clone the Repo
 ```bash
 git clone https://github.com/AaradhyaproK/result_analysis.git
 cd result_analysis
 ```
 
-### Step 2: Install Dependencies
-Create a `requirements.txt` file (if not present) and install the libraries:
+### 2️⃣ Create Virtual Environment
+**Windows**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
+**Mac/Linux**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3️⃣ Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
-*(If `requirements.txt` is missing, run: `pip install streamlit pandas PyPDF2 plotly requests scikit-learn xlsxwriter`)*
 
-### Step 3: Configure Firebase Keys
-**Important:** For security, the API keys are not included in the GitHub repo. You must create a configuration file.
-
-1.  Create a new file named `firebase_config.py` in the root folder.
-2.  Paste your Firebase credentials into it:
+### 4️⃣ Configure Firebase
+Create a file named `firebase_config.py` in the root directory:
 
 ```python
-# firebase_config.py
 FIREBASE_CONFIG = {
     "apiKey": "YOUR_API_KEY",
-    "authDomain": "YOUR_PROJECT.firebaseapp.com",
-    "projectId": "YOUR_PROJECT_ID",
-    "storageBucket": "YOUR_PROJECT.firebasestorage.app",
-    "messagingSenderId": "YOUR_SENDER_ID",
-    "appId": "YOUR_APP_ID",
-    "measurementId": "YOUR_MEASUREMENT_ID"
+    "authDomain": "your-project.firebaseapp.com",
+    "projectId": "your-project",
+    "storageBucket": "your-project.appspot.com",
+    "messagingSenderId": "...",
+    "appId": "..."
 }
 ```
 
-### Step 4: Run the App
+### 5️⃣ Run App
 ```bash
 streamlit run app.py
 ```
 
 ---
 
-## 🌟 Features Breakdown
+## 📖 **Usage Guide**
 
-### 👨‍🏫 For Teachers
-1.  **Upload & Analyze:**
-    *   Upload a PDF marksheet.
-    *   Get instant stats: Pass %, Average SGPA, Failure Count.
-    *   View "Critical Subjects" (subjects where most students failed).
-2.  **Global Search:**
-    *   Search for any student by Name or PRN across *all* uploaded exams.
-    *   See their complete history in one place.
-3.  **Cloud Sync:**
-    *   Save analyzed data to the cloud with one click.
-    *   Access saved reports anytime from the "Saved" tab.
+### 👨‍🏫 **Teacher Dashboard**
+- Upload PDF
+- Tag exam (e.g., TE 2024)
+- Parse & store in Firestore
+- Global PRN search
 
-### 👨‍🎓 For Students
-1.  **Personal Dashboard:**
-    *   Login to view your specific results.
-    *   See a graph of your SGPA growth.
-2.  **AI Prediction:**
-    *   The system predicts your *next* SGPA based on your past performance trend.
-3.  **Downloadable Reports:**
-    *   Download your history or specific semester results as Excel files.
+### 🎓 **Student Dashboard**
+- Login → Enter PRN
+- View SGPA timeline
+- Subjects + grades
+- Pass/Fail summary
 
 ---
 
-## 📊 Database Schema (Firestore)
+## 🛠️ **Troubleshooting**
 
-The app uses two main collections in Firebase:
-
-**1. `users` Collection**
-*   Stores user profiles (Email, Role, Name).
-
-**2. `result_files` Collection**
-*   Stores the parsed data from every PDF uploaded.
-*   **Fields:**
-    *   `exam_tag`: e.g., "SE Computer 2024"
-    *   `students_data`: A huge array containing every student's marks from that PDF.
-    *   `summary`: Pre-calculated stats (Avg SGPA, Pass Rate).
+| Issue | Fix |
+|------|-----|
+| ❗ Role Mismatch | Re-login with correct role. |
+| ❗ Token Missing | Log out & log in again. |
+| ❗ White Text | Light mode → Auto CSS applies. |
+| ❗ PDF Upload Error | Ensure PDF is text-readable (not scanned). |
 
 ---
 
-## 🤝 Contributing
+## 🤝 **Contributing**
 
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature-branch`).
-3.  Commit your changes.
-4.  Push to the branch.
-5.  Open a Pull Request.
+```bash
+git checkout -b feature/AmazingFeature
+git commit -m "Add AmazingFeature"
+git push origin feature/AmazingFeature
+```
+Then open a Pull Request.
 
 ---
 
-**Developed by Sakshi & Aaradhya** | Student Result Analyzer Pro
+## 📜 **License**
+
+Released under the **MIT License**.
+
+---
+
+<div align="center">
+
+### ❤️ Made with Passion using Streamlit & Python
+
+</div>
