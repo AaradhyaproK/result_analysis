@@ -161,4 +161,4 @@ The app uses two main collections in Firebase:
 
 ---
 
-**Developed by Sakshi** | Student Result Analyzer Pro
+**Developed by Sakshi & Aaradhya** | Student Result Analyzer Pro
